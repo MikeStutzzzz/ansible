@@ -1,0 +1,39 @@
+---
+- name: Configure Access
+  hosts: access
+  connection: local
+  gather_facts: false
+  roles:
+    - access
+  vars:
+    cli:
+        username: mike
+        password: password1234
+        authorize: yes
+        auth_pass: false
+
+    ios_config:
+      range Gi1/0/1-5:
+        desc: "User_Port"
+        portmode: User
+        primary: 150
+        isolated: 151
+        admin: up
+
+      Gi1/0/6:
+        desc: "WAP_Ports"
+        portmode: AP
+        ap_vlan: 998
+        admin: up
+
+      Te1/1/1:
+        desc: "Uplink"
+        portmode: Uplink
+        trunked_vlans: "150,151,998,999"
+        admin: up
+
+      Te1/1/2:
+        desc: "Downlink"
+        portmode: Downlink
+        trunked_vlans: "150,151,998,999"
+        admin: up

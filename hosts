@@ -1,0 +1,2 @@
+access ansible_host=x.x.x.x ansible_net_os_name="cisco"
+access ansible_host=x.x.x.x ansible_net_os_name="cisco"

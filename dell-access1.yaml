@@ -1,0 +1,118 @@
+---
+- name: Configure Acess
+  hosts: access
+  connection: local
+  gather_facts: false
+  roles:
+    - Dell-Networking.dellos-interface
+#    - Dell-Networking.dellos-vlan
+  vars:
+    cli:
+        username: mike
+        password: password1234
+        authorize: yes
+        auth_pass: false
+#        transport: cli
+#    dellos_vlan:
+#      vlan 999:
+#        name: "Switch Infrastucture"
+#      vlan 150:
+#        name: User_Primary
+#      vlan 151:
+#        name :User_Isolated
+
+
+    dellos_interface:
+      range Gi1/0/1-15:
+        desc: "User_Port"
+        portmode: User
+        primary: 150
+        isolated: 151
+        admin: up
+
+      Gi1/0/16:
+        desc: "WAP_Ports"
+        portmode: AP
+        ap_vlan: 998
+        admin: up
+
+      Te1/0/1:
+        desc: "Uplink"
+        portmode: Uplink
+        trunked_vlans: "150,151,998,999"
+        admin: up
+
+      range Te1/0/2-4:
+        desc: "Downlink"
+        portmode: Downlink
+        trunked_vlans: "150,151,998,999"
+        admin: up
+
+
+#      vlan 999:
+#        ip_type_dynamic: false
+#        ip_and_mask: 192.168.99.1 255.255.255.0
+#        suppress_ra: present
+
+
+#      Te1/0/2:
+#        desc: "Downlink_Port"
+#        portmode: Trunk
+#        trunked_vlans: "150,151,998,999"
+#        admin: up
+
+
+#    dellos_vlan:
+#      vlan 150:
+#        name: "Wired_Users"
+#        tagged_members:
+#          - port: Te1/0/1
+#            state: present
+#        untagged_members:
+#          - port: Gi1/0/17
+#            state: present
+#        state: present
+#
+#      vlan 151:
+#        name: "Wired_Users_Private"
+#        tagged_members:
+#          - port: Te1/0/1
+#            state: present
+#        state: present
+
+
+  tasks:
+#      - name: Configure Vlans
+#        dellos6_config:
+#          provider: "{{ cli }}"
+#          src: /home/mike/.ansible/roles/Dell-Networking.dellos-vlan/templates/dellos6_vlan.j2
+#        when: ansible_net_os_name == "dellos6"
+#        register: print_output
+#      - debug: var=print_output
+
+      - name: Configure User Interfaces
+        dellos6_config:
+          provider: "{{ cli }}"
+#          authorize: yes
+#          src: /home/mike/mstutzzzz@gmail.com/Atom/Ansible/Custom_Templates/dellos6_interface.j2
+        when: ansible_net_os_name == "dellos6"
+        register: print_output
+      - debug: var=print_output
+
+#      - name: Configure AP Interfaces
+#        dellos6_config:
+#          provider: "{{ cli }}"
+#          authorize: yes
+#          src: /home/mike/mstutzzzz@gmail.com/Atom/Ansible/Custom_Templates/dellos6_interface_ap.j2
+#        when: ansible_net_os_name == "dellos6"
+#        register: print_output
+#      - debug: var=print_output
+
+#      - name: Configure Trunk Interfaces
+#        dellos6_config:
+#          provider: "{{ cli }}"
+#          authorize: yes
+#          src: /home/mike/mstutzzzz@gmail.com/Atom/Ansible/Custom_Templates/dellos6_interface_trunk.j2
+#        when: ansible_net_os_name == "dellos6"
+#        register: print_output
+#      - debug: var=print_output

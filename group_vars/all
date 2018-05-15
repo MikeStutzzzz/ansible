@@ -1,0 +1,27 @@
+---
+switches:
+    dellos_interface:
+      range Gi1/0/1-15:
+        desc: "User_Port"
+        portmode: User
+        primary: 150
+        isolated: 151
+        admin: up
+
+      range Gi1/0/16-40:
+        desc: "WAP_Ports"
+        portmode: AP
+        ap_vlan: 998
+        admin: up
+
+      Te1/0/1:
+        desc: "Uplink"
+        portmode: Uplink
+        trunked_vlans: "150,151,998,999"
+        admin: up
+
+      range Te1/0/2-4:
+        desc: "Downlink"
+        portmode: Downlink
+        trunked_vlans: "150,151,998,999"
+        admin: up
