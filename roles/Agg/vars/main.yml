@@ -1,5 +1,5 @@
 ---
-# vars file for Access
+# vars file for Dell-Networking.dellos-interface
 
 provider:
     host: "{{ hostname }}"
