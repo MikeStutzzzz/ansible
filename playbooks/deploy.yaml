@@ -1,14 +1,24 @@
 ---
-- name: Deploy
+- hosts: all
+  tasks:
+
+- name: Deploy Distro
+  hosts: Distro
+  connection: local
+  gather_facts: false
+  roles:
+    - Distro
+
+- name: Deploy Agg
+  hosts: Agg
+  connection: local
+  gather_facts: false
+  roles:
+    - Agg
+
+- name: Deploy access
+  hosts: access
   connection: local
   gather_facts: false
   roles:
     - access
-    - Agg
-    - Distro
-  vars:
-    cli:
-        username: mike
-        password: password1234
-        authorize: yes
-        auth_pass: false
