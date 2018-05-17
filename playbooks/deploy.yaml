@@ -1,0 +1,14 @@
+---
+- name: Deploy
+  connection: local
+  gather_facts: false
+  roles:
+    - access
+    - Agg
+    - Distro
+  vars:
+    cli:
+        username: mike
+        password: password1234
+        authorize: yes
+        auth_pass: false
