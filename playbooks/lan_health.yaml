@@ -1,0 +1,7 @@
+---
+- name: Grab Interface Speeds look for 10 or 100
+  hosts: access
+  connection: local
+  gather_facts: false
+  roles:
+    - access
