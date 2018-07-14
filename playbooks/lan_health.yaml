@@ -1,7 +1,19 @@
 ---
-- name: Grab Interface Speeds look for 10 or 100
-  hosts: access
+- name: Lan Health
+  hosts: aggs
+  gather_facts: no
   connection: local
-  gather_facts: false
-  roles:
-    - access
+
+  tasks:
+    - name: Check Interface Status
+      dellos6_command:
+        commands: show interface status | include WAP_Ports exclude Unkown
+        wait_for: result[0] not_contains 1000
+      register: interfaces
+      tags: interfaces
+
+    - name: Get LLDP Detail Neighbor
+      dellos6_command:
+        commands: show lldp remote-device detail {{item.interface}}
+            - interfaces
+        with_items: interfaces.response
