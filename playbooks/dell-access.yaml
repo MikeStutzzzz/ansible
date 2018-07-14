@@ -13,7 +13,7 @@
         auth_pass: false
 
     dellos_interface:
-      range Gi1/0/1-15:
+      Gi1/0/1-15:
         desc: "User_Port"
         portmode: User
         primary: 150

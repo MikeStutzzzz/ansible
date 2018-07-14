@@ -2,7 +2,11 @@
 
 {% if ios_config is defined and ios_config %}
 {% for key in ios_config.keys() %}
+{% if "-" in key %}
+interface range {{ key }}
+{% else %}
 interface {{ key }}
+{% endif %}
 {% set intf_vars  = ios_config[key] %}
 {% if intf_vars.desc is defined %}
  {% if intf_vars.desc %}

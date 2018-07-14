@@ -2,7 +2,11 @@
 
 {% if dellos_interface is defined and dellos_interface %}
 {% for key in dellos_interface.keys() %}
+{% if "-" in key %}
+interface range {{ key }}
+{% else %}
 interface {{ key }}
+{% endif %}
 {% set intf_vars  = dellos_interface[key] %}
 {% if intf_vars.desc is defined %}
  {% if intf_vars.desc %}
