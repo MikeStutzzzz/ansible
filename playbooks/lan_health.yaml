@@ -1,19 +1,33 @@
 ---
 - name: Lan Health
-  hosts: aggs
+  hosts: agg
   gather_facts: no
   connection: local
+
+  vars:
+    cli:
+        username: 
+        password:
+        authorize: yes
+        auth_pass: false
 
   tasks:
     - name: Check Interface Status
       dellos6_command:
+        provider: "{{ cli }}"
         commands: show interface status | include WAP_Ports exclude Unkown
-        wait_for: result[0] not_contains 1000
-      register: interfaces
-      tags: interfaces
+        wait_for: result[0] contains 1000
+      register: printout
+#      tags: interfaces
+    - set_fact:
+        intf: |
+          {{printout.stdout_lines[0] |
+            map('regex_search','^([A-Za-z]+[0-9./]+)') |
+            list }}
+        register: interface[]
+        tags: intferface
 
     - name: Get LLDP Detail Neighbor
       dellos6_command:
-        commands: show lldp remote-device detail {{item.interface}}
-            - interfaces
-        with_items: interfaces.response
+        provider: "{{ cli }}"
+        commands: show lldp remote-device detail interface {{ interface }}
