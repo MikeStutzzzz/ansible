@@ -3,10 +3,11 @@
   hosts: agg
   gather_facts: no
   connection: local
+  roles: accessverify
 
   vars:
     cli:
-        username: 
+        username:
         password:
         authorize: yes
         auth_pass: false
@@ -29,5 +30,6 @@
 
     - name: Get LLDP Detail Neighbor
       dellos6_command:
+        src: dellos6.j2
         provider: "{{ cli }}"
         commands: show lldp remote-device detail interface {{ interface }}

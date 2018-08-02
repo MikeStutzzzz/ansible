@@ -1,0 +1,16 @@
+---
+ - name: "Provisioning interface configuration for dellos6"
+   dellos6_config:
+     src: dellos6.j2
+     provider: "{{ cli }}"
+   when: ansible_net_os_name == "dellos6"
+#   notify: save config os6
+   register: output
+
+ - name: "Provisioning interface configuration for Cisco"
+   ios_config:
+     src: cisco.j2
+     provider: "{{ cli }}"
+   when: ansible_net_os_name == "cisco"
+#   notify: save config os6
+   register: output
